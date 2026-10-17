@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg?v=2">
+  <title>Wallet Companion bridge</title>
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="theme.js"></script>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="logo.svg" alt="" class="header-logo">
+      <h1>EUDI Dev Wallet</h1>
+    </div>
+  </header>
+  <main style="max-width: 40rem; margin: 2rem auto; padding: 0 1rem;">
+    <h2>Wallet Companion bridge</h2>
+    <p id="status">Loading…</p>
+    <p id="consent" hidden>
+      Approve or deny the request in the wallet:
+      <a href="./" target="_blank" rel="noopener">open the wallet</a>.
+    </p>
+    <div id="register" hidden>
+      <p>
+        The <a href="https://github.com/sirosfoundation/wallet-companion" target="_blank" rel="noopener">Wallet Companion</a>
+        browser extension opens this page with a Digital Credentials API request.
+        Register this page with the extension to offer this wallet for
+        <code>openid4vp-v1-signed</code> requests.
+      </p>
+      <button type="button" class="btn btn-primary" id="register-button">Register with Wallet Companion</button>
+    </div>
+  </main>
+  <script src="companion.js"></script>
+</body>
+</html>

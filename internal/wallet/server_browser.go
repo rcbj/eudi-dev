@@ -35,7 +35,13 @@ func (s *Server) handleBrowserPresentationAPI(w http.ResponseWriter, r *http.Req
 		return
 	}
 
-	requestOrigin := strings.TrimSpace(r.Header.Get("Origin"))
+	s.answerBrowserPresentation(w, r, body, strings.TrimSpace(r.Header.Get("Origin")))
+}
+
+// answerBrowserPresentation answers a Digital Credentials API request from
+// requestOrigin, the origin that OpenID4VP 1.0 Appendix A.2 compares with
+// expected_origins.
+func (s *Server) answerBrowserPresentation(w http.ResponseWriter, r *http.Request, body oid4vp.BrowserAPIRequestEnvelope, requestOrigin string) {
 	protocol, authReq, err := oid4vp.ParseBrowserAPIRequest(body, s.parseOpts, requestOrigin)
 	if err != nil {
 		s.refuseUnreadableRequest(w, requestOwner(r), err)

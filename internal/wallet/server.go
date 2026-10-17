@@ -158,6 +158,7 @@ func (s *Server) setupRoutes() {
 
 	s.routeFunc("POST /api/presentations", s.withFreshStore(s.handlePresentationAPI))
 	s.routeFunc("POST /api/dc-api", s.withFreshStore(s.handleBrowserPresentationAPI))
+	s.routeFunc("POST /api/companion/dc-api", s.withFreshStore(s.handleCompanionPresentationAPI))
 
 	s.routeFunc("POST /api/offers", s.withFreshStore(s.handleOfferAPI))
 	s.routeFunc("GET /api/offers/{id}", s.handleOfferStatus)

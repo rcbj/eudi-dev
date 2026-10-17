@@ -63,6 +63,7 @@ These endpoints run the OID4VP and OID4VCI flows. `wallet accept`, `wallet scan`
 |--------|------|-------------|----------------|
 | `POST` | `/api/presentations` | Answer an OID4VP authorization request | `wallet accept <uri>` |
 | `POST` | `/api/dc-api` | Answer a Digital Credentials API request | None |
+| `POST` | `/api/companion/dc-api` | Answer a Digital Credentials API request relayed by the Wallet Companion bridge page | None |
 | `POST` | `/api/offers` | Accept an OID4VCI credential offer | `wallet accept <uri>` |
 | `GET` | `/api/offers/{id}` | State of an offer that waits for the issuer's sign-in | None |
 | `GET` | `/api/requests` | Pending consent requests of the caller | None |
@@ -94,6 +95,8 @@ curl -X POST http://localhost:8085/api/presentations \
 ```
 
 `POST /api/dc-api` takes the argument of `navigator.credentials.get()`: `{"digital": {"requests": [{"protocol": "...", "data": {...}}]}}`. The protocol is one of the OpenID4VP Digital Credentials API protocols. The answer is the API result for the page: `{"protocol": "...", "data": {...}}`. Verifier pages call this endpoint from their own origin, so it accepts cross-origin requests.
+
+`POST /api/companion/dc-api` takes the same body plus `origin`, the serialized origin of the verifier page (`https://rp.example`, no path). The wallet uses it in place of the `Origin` header: it is compared with `expected_origins` (OpenID4VP 1.0 Appendix A.2) and becomes the audience (Appendix A.4). The endpoint accepts same-origin requests only. Its caller is `/companion.html`, the page the [Wallet Companion](https://github.com/sirosfoundation/wallet-companion) browser extension opens in a browser without the Digital Credentials API. The page learns the origin from the browser-set `origin` of the extension's `WC_ORIGIN_ACK` message, never from the `client_id` query parameter, and returns the result to the verifier page in a `WC_WALLET_RESPONSE` message. Open `/companion.html` directly to register the wallet with the extension. It handles `openid4vp-v1-signed` requests only.
 
 #### Credential offers
 
